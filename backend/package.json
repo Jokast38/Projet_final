@@ -1,0 +1,24 @@
+{
+  "name": "projet_final",
+  "version": "1.0.0",
+  "description": "Plateforme de stockage ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jokast38/Projet_final.git"
+  },
+  "author": "Jokast Kassa et Béni MAMBI-GUERIN",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jokast38/Projet_final/issues"
+  },
+  "homepage": "https://github.com/Jokast38/Projet_final#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "nodemon": "^3.1.0"
+  }
+}
