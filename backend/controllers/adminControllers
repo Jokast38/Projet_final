@@ -1,0 +1,23 @@
+const File = require('../models/File');
+const User = require('../models/User');
+
+exports.getStats = async (req, res) => {
+    try {
+        // Nombre total de fichiers
+        const totalFiles = await File.count();
+        
+        // Nombre de fichiers uploadés aujourd'hui
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);  // Reset l'heure pour obtenir les fichiers du jour
+        const filesToday = await File.count({ where: { uploadDate: { [Op.gte]: today } } });
+
+        // Récupérer les informations de stockage par utilisateur
+        const storageByUser = await User.findAll({
+            attributes: ['firstName', 'usedStorage', 'storageLimit']
+        });
+
+        res.json({ totalFiles, filesToday, storageByUser });
+    } catch (err) {
+        res.status(400).send('Error: ' + err.message);
+    }
+};
