@@ -20,6 +20,7 @@ exports.register = async (req, res) => {
     }
 };
 
+// Exemple pour un utilisateur lors de la connexion
 exports.login = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -29,7 +30,9 @@ exports.login = async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).send('Invalid credentials');
 
-        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+       
+        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '6M' });
+
         res.json({ token });
     } catch (err) {
         res.status(400).send('Error: ' + err.message);
