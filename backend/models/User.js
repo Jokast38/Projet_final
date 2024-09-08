@@ -2,11 +2,11 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database'); // Connexion MySQL
 
 const User = sequelize.define('User', {
-    firstName: {
+    first_name: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    lastName: {
+    last_name: {
         type: DataTypes.STRING,
         allowNull: false
     },

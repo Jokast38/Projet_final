@@ -4,8 +4,9 @@ const User = require('../models/User');
 exports.uploadFile = async (req, res) => {
     try {
         const file = await File.create({
-            fileName: req.file.filename,
-            fileSize: req.file.size,
+            file_name: req.file.filename,
+            file_size: req.file.size,
+            file_path: req.file.path,
             UserId: req.userId // Associer le fichier à l'utilisateur connecté
         });
 

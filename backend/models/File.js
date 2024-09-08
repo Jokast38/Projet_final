@@ -3,15 +3,19 @@ const sequelize = require('../config/database');
 const User = require('./User');
 
 const File = sequelize.define('File', {
-    fileName: {
+    file_name: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    fileSize: {
+    file_path: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    file_size: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    uploadDate: {
+    uploaded_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
     }
