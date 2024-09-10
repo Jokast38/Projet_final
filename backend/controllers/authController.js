@@ -2,6 +2,8 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { sendEmail } = require('../services/mailService');
+
 
 // Fonction pour l'inscription
 exports.register = async (req, res) => {
@@ -11,6 +13,7 @@ exports.register = async (req, res) => {
         // Vérifier si l'utilisateur existe déjà
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
+            await sendEmail(email, first_name, 'Tentative de création de compte avec votre email');
             return res.status(400).json({ message: 'Email already in use' });
         }
 
@@ -24,7 +27,7 @@ exports.register = async (req, res) => {
             email,
             password: hashedPassword
         });
-
+        await sendEmail(email, first_name, 'Bienvenue sur notre plateforme');
         res.status(201).json({ message: 'User created successfully', user: newUser });
     } catch (err) {
         res.status(500).json({ message: 'Server error', error: err.message });
