@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
+import { Link } from "react-router-dom"; 
 import Logo from "../Assets/Logo.svg";
 import { BsCart2 } from "react-icons/bs";
 import { HiOutlineBars3 } from "react-icons/hi2";
@@ -24,18 +25,27 @@ const Navbar = () => {
     {
       text: "Home",
       icon: <HomeIcon />,
+      link: "/",
     },
     {
       text: "About",
       icon: <InfoIcon />,
+      link: "/about",
     },
     {
       text: "Contact",
       icon: <PhoneRoundedIcon />,
+      link: "/contact",
     },
     {
       text: "Cart",
       icon: <ShoppingCartRoundedIcon />,
+      link: "/cart",
+    },
+    {
+      text: "Connexion",
+      icon: <ShoppingCartRoundedIcon />,
+      link: "/Login",
     },
   ];
   return (
