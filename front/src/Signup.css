@@ -1,13 +1,13 @@
-/* Conteneur principal pour centrer le formulaire */
+
 .signup-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Hauteur minimale de 100% de la fenêtre */
+    min-height: 100vh; 
     background-color: #f9f9f9;
   }
   
-  /* Style pour le formulaire d'inscription */
+
   .signup-form {
     background-color: white;
     padding: 2rem;
@@ -71,7 +71,6 @@
     text-align: left;
   }
   
-  /* Styles pour les petits écrans */
   @media (max-width: 600px) {
     .signup-form {
       padding: 1.5rem;
