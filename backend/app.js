@@ -1,6 +1,8 @@
 const express = require('express');
 const Sequelize = require('sequelize');
 const dotenv = require('dotenv');
+const cors = require('cors');
+
 
 const User = require('./models/User');
 const File = require('./models/File');
@@ -34,6 +36,11 @@ sequelize.sync({ force: false }) // force: true pour recréer les tables si elle
     .catch(err => console.log(err));
 
 app.use(express.json());
+app.use(cors({
+    origin: 'http://localhost:3001', // Remplacez par le domaine de votre frontend
+    methods: 'GET,POST,PUT,DELETE',  // Méthodes HTTP autorisées
+    credentials: true
+  }));
 app.use('/api/auth', authRoutes);
 app.use('/api/files', fileRoutes);
 app.use('/api/user', userRoutes);

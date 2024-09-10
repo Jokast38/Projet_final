@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import '../Signup.css';
 import Navbar from './Navbar';
 import '../App.css'
@@ -6,13 +7,15 @@ import '../App.css'
 const Signup = () => {
   // Gestion de l'état des champs de formulaire
   const [formData, setFormData] = useState({
-    username: '',
+    first_name: '',
+    last_name: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
 
   const [errors, setErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState('');
 
   // Fonction pour gérer les changements dans les champs de formulaire
   const handleChange = (e) => {
@@ -25,8 +28,11 @@ const Signup = () => {
   // Fonction pour valider les champs avant soumission
   const validate = () => {
     let formErrors = {};
-    if (!formData.username.trim()) {
-      formErrors.username = 'Nom d’utilisateur requis';
+    if (!formData.first_name.trim()) {
+      formErrors.first_name = 'Prénom requis';
+    }
+    if (!formData.last_name.trim()) {
+      formErrors.last_name = 'Nom requis';
     }
     if (!formData.email) {
       formErrors.email = 'Email requis';
@@ -45,12 +51,25 @@ const Signup = () => {
   };
 
   // Fonction pour soumettre le formulaire
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length === 0) {
-      // Si pas d'erreurs, on peut envoyer les données au backend
-      console.log('Données soumises : ', formData);
+      try {
+        // Envoyer les données du formulaire au backend via Axios
+        const response = await axios.post('http://localhost:3000/api/auth/register', {
+          first_name: formData.first_name,
+          last_name: formData.last_name,
+          email: formData.email,
+          password: formData.password,
+        });
+
+        if (response.status === 201) {
+          setSuccessMessage('Inscription réussie !');
+        }
+      } catch (err) {
+        setErrors({ apiError: err.response?.data?.message || 'Une erreur est survenue' });
+      }
     } else {
       setErrors(validationErrors);
     }
@@ -58,19 +77,29 @@ const Signup = () => {
 
   return (
     <>
-    <Navbar />
     <div className="signup-form">
       <h2>Inscription</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Nom d'utilisateur</label>
+          <label>Prénom</label>
           <input
             type="text"
-            name="username"
-            value={formData.username}
+            name="first_name"
+            value={formData.first_name}
             onChange={handleChange}
           />
-          {errors.username && <p>{errors.username}</p>}
+          {errors.first_name && <p>{errors.first_name}</p>}
+        </div>
+
+        <div>
+          <label>Nom</label>
+          <input
+            type="text"
+            name="last_name"
+            value={formData.last_name}
+            onChange={handleChange}
+          />
+          {errors.last_name && <p>{errors.last_name}</p>}
         </div>
 
         <div>
@@ -108,6 +137,8 @@ const Signup = () => {
 
         <button type="submit">S'inscrire</button>
       </form>
+      {errors.apiError && <p>{errors.apiError}</p>}
+      {successMessage && <p>{successMessage}</p>}
     </div>
     </>
   );

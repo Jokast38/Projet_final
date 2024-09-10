@@ -44,9 +44,9 @@ const Navbar = () => {
         <img src={logonav} alt=""  style={{ width: '250px', height: '70px' }} />
       </div>
       <div className="navbar-links-container">
-        <a href="">Tarifs</a>
-        <a href="">À Propos</a>
-        <a href="">contact</a>
+        <a href="#tarifs">Tarifs</a>
+        <a href="#about">À Propos</a>
+        <a href="#contact">contact</a>
         <a href="">Connexion</a>
         <button className="primary-button">Inscription</button>
       </div>

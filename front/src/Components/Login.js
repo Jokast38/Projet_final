@@ -9,6 +9,7 @@ const Login = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [loginMessage, setLoginMessage] = useState('');
 
   const handleChange = (e) => {
     setFormData({
@@ -32,11 +33,30 @@ const Login = () => {
     return formErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length === 0) {
-      console.log('Données soumises : ', formData);
+      try {
+        const response = await fetch('http://localhost:3000/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          setLoginMessage('Connexion réussie!');
+          console.log('Données reçues du backend : ', data);
+          // Stockez le token dans localStorage ou redirigez l'utilisateur
+        } else {
+          setErrors({ apiError: data.message || 'Erreur de connexion' });
+        }
+      } catch (error) {
+        setErrors({ apiError: 'Erreur lors de la connexion au serveur' });
+      }
     } else {
       setErrors(validationErrors);
     }
@@ -44,36 +64,39 @@ const Login = () => {
 
   return (
     <>
-    <Navbar />
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <h2>Connexion</h2>
+      <div className="login-container">
+        <form className="login-form" onSubmit={handleSubmit}>
+          <h2>Connexion</h2>
 
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-          {errors.email && <p>{errors.email}</p>}
-        </div>
+          {loginMessage && <p>{loginMessage}</p>}
 
-        <div>
-          <label>Mot de passe</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-          {errors.password && <p>{errors.password}</p>}
-        </div>
+          <div>
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+            {errors.email && <p>{errors.email}</p>}
+          </div>
 
-        <button type="submit">Se connecter</button>
-      </form>
-    </div>
+          <div>
+            <label>Mot de passe</label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+            {errors.password && <p>{errors.password}</p>}
+          </div>
+
+          {errors.apiError && <p>{errors.apiError}</p>}
+
+          <button type="submit">Se connecter</button>
+        </form>
+      </div>
     </>
   );
 };
