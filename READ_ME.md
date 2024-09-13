@@ -1,4 +1,8 @@
 
+
+bash: npm i 
+      npm start
+
 ### Étapes pour démarrer le projet :
 
 1. **Initialisation du projet Node.js :**
